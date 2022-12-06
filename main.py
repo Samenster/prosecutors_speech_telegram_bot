@@ -1,13 +1,12 @@
 import logging
 from aiogram import Bot, Dispatcher, executor, types
-
-API_TOKEN = 'BOT TOKEN HERE'
+from settings import TELEGRAM_AUTHORIZATION_TOKEN
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=TELEGRAM_AUTHORIZATION_TOKEN)
 dp = Dispatcher(bot)
 
 
@@ -17,7 +16,7 @@ async def send_welcome(message: types.Message):
     This handler will be called when user sends `/start` or `/help` command
     """
 
-    await message.reply("Hi!\nI'm EchoBot!\nPowered by aiogram.")
+    await message.reply("Hi!\nI'm EchoBot!")
 
 
 @dp.message_handler()
