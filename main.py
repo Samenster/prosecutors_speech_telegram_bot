@@ -3,7 +3,8 @@ import string
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
+from keyboards import keyboard_client
+from aiogram.types import ReplyKeyboardRemove
 
 import json
 
@@ -54,6 +55,9 @@ class TelegramBot:
         :return: None
         """
         self.registrate_message_handler(self.handler_message_start, ['Start'])
+        self.registrate_message_handler(self.handler_message_menu, ['Меню'])
+        self.registrate_message_handler(self.handler_message_download, ['Загрузить_txt'])
+        self.registrate_message_handler(self.handler_message_clear, ['Очистить_клавиатуру'])
         self.registrate_message_handler(self.censorship)
 
     async def censorship(self, message: types.Message):
@@ -70,14 +74,22 @@ class TelegramBot:
 
     async def handler_message_start(self, message: types.Message):
         welcoming_message = f"Добро пожаловать на страничку бота '{self.name}'\n" \
-                            f"Указанный бот создан с целью помощи в составлении речи государственного обвинителя. " \
-                            f"(В настоящее время проект разрабатывается в свободное время. " \
-                            f"Функционал далек от финального).\n" \
-                            f"Доступный функционал:\n\n" \
-                            f"/start - Приветственное сообщение (доступный функционал)\n\n" \
-                            f"/menu - Меню приложения\n\n" \
-                            f"/download - Загрузить подготовленный к обработке txt файл"
-        await message.answer(welcoming_message)
+                            f"Указанный бот создан с целью помощи в составлении речи государственного обвинителя " \
+                            f" в прениях. (В настоящее время проект разрабатывается в свободное время. " \
+                            f"Функционал далек от финального)."
+        await message.answer(welcoming_message, reply_markup=keyboard_client)
+
+    async def handler_message_menu(self, message: types.Message):
+        msg = "Тест функции: меню"
+        await message.answer(msg)
+
+    async def handler_message_download(self, message: types.Message):
+        msg = "Тест функции: загрузка"
+        await message.answer(msg)
+
+    async def handler_message_clear(self, message: types.Message):
+        msg = "Тест функции: очистить клавиатуру"
+        await message.answer(msg, reply_markup=ReplyKeyboardRemove())
 
     async def on_startup(self, _):
         print(f'Бот "{self.name}" вышел в онлайн')
@@ -92,4 +104,3 @@ class TelegramBot:
 if __name__ == '__main__':
     telegram_bot = TelegramBot()
     telegram_bot.start_bot()
-
