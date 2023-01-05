@@ -1,13 +1,13 @@
 import string
-
-from aiogram import Bot, types
-from aiogram.dispatcher import Dispatcher
-from aiogram.utils import executor
-from keyboards import keyboard_client
-from aiogram.types import ReplyKeyboardRemove
-
 import json
 
+from aiogram import Bot, types
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from aiogram.dispatcher import Dispatcher
+from aiogram.types import ReplyKeyboardRemove
+from aiogram.utils import executor
+
+from keyboards import keyboard_client
 import settings
 
 
@@ -100,6 +100,7 @@ class TelegramBot:
     def start_bot(self):
         self.registrate_message_handlers()
         self.start_polling()
+
 
 if __name__ == '__main__':
     telegram_bot = TelegramBot()
